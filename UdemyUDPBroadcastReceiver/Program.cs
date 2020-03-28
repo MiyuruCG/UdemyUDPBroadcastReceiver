@@ -1,5 +1,5 @@
 ﻿/* 
- * Udemy :: UDP Socket Programming For Distributed Computing in C# .NET
+ * Udemy :: UDP Socket Programming For Distributed Computing in C# .NET (receiver) 
  */
 using System;
 using System.Collections.Generic;
