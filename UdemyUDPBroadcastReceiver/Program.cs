@@ -30,13 +30,29 @@ namespace UdemyUDPBroadcastReceiver
             //coverting received byte[] data to text string so the receiver can print the string on the console 
             string txtReceived = string.Empty;
 
+            //need to create an endpoint object , so we will create IPendpoint object
+            IPEndPoint ipEpSender = new IPEndPoint(IPAddress.Any, 0);
+            //1 ::this endpoint will work with any network interface that is attached to this machine
+            //2 :: to use any freely available port no
+
+            //converting into a endpoint 
+            EndPoint epSender = (EndPoint)ipEpSender;
+
+
             try
             {
                 sockBroadcastReceiver.Bind(ipEndPoint); // binds the endpoint to the reciving socket
                 while (true)
                 {
-                    //receive methord
-                    countReceived = sockBroadcastReceiver.Receive(receiverBuffer);
+                    /*
+                      //receive methord
+                      countReceived = sockBroadcastReceiver.Receive(receiverBuffer);
+                    */
+                    //change the receive methord to get the ip address of the sender 
+                    countReceived = sockBroadcastReceiver.ReceiveFrom(receiverBuffer, ref epSender);
+
+
+
                     txtReceived = Encoding.ASCII.GetString(receiverBuffer, 0, countReceived);
                     //1 :: the received buffer
                     //2 :: the starting point index of the getString operation
@@ -44,6 +60,8 @@ namespace UdemyUDPBroadcastReceiver
 
                     Console.WriteLine("Number of byted recieved : " + countReceived);
                     Console.WriteLine(" Received :: "+ txtReceived);
+                    Console.WriteLine("Received from :: "+ epSender.ToString());
+
                     Array.Clear(receiverBuffer, 0 , receiverBuffer.Length); 
                     // cause using the same array to get the data again ans again needs to clear it before adding 
                 }
