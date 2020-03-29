@@ -62,6 +62,18 @@ namespace UdemyUDPBroadcastReceiver
                     Console.WriteLine(" Received :: "+ txtReceived);
                     Console.WriteLine("Received from :: "+ epSender.ToString());
 
+                    if (txtReceived.Equals("<Echo>"))
+                    {
+                        sockBroadcastReceiver.SendTo(receiverBuffer, 0, countReceived, SocketFlags.None, epSender);
+                        //para 1 :: the data that will be send using .SendTo methord  << here we will send back the same data we recived >>
+                        //para 2 :: the array index where the methord will start sending data (byte[])
+                        //para 3 :: lenght of data wich we want to send (in the byte[])
+                        //para 4 :: use to enable or disable some socket features
+                        //para 5 :: end point to wich we want to send the data 
+
+                        Console.WriteLine("Text Echoed back.... ");
+                    }
+
                     Array.Clear(receiverBuffer, 0 , receiverBuffer.Length); 
                     // cause using the same array to get the data again ans again needs to clear it before adding 
                 }
